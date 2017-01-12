@@ -16,10 +16,6 @@ resource "aws_instance" "web1" {
             EOF
 
   tags {
-    Name = "webserver-1"
+    Name = "web1"
   }
-}
-
-resource "aws_eip" "ip" {
-    instance = "${aws_instance.web1.id}"
 }
