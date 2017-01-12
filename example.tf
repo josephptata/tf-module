@@ -5,9 +5,9 @@ provider "aws" {
 }
 
 resource "aws_instance" "web1" {
-  ami           = "ami-b73d6cd7"
+  ami           = "ami-d8bdebb8"
   instance_type = "t2.micro"
-  count = "1"
+  count = "2"
 
   user_data = <<-EOF
             #!/bin/bash
@@ -21,11 +21,5 @@ resource "aws_instance" "web1" {
 }
 
 resource "aws_eip" "ip" {
-    instance = "${aws_instance.another.id}"
-}
-
-resource "aws_instance" "another" {
-  ami = "ami-b73d6cd7"
-  instance_type = "t2.micro"
-  depends_on = ["aws_instance.example"]
+    instance = "${aws_instance.web1.id}"
 }
