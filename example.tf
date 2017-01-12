@@ -4,13 +4,19 @@ provider "aws" {
   region     = "${var.region}"
 }
 
-resource "aws_instance" "example" {
+resource "aws_instance" "web1" {
   ami           = "ami-b73d6cd7"
   instance_type = "t2.micro"
-  count = "5"
+  count = "1"
 
-  provisioner "local-exec" {
-    command = "echo ${aws_instance.example.public_ip} > ip_address.txt"
+  user_data = <<-EOF
+            #!/bin/bash
+            echo "Hello, World" > index.html
+            nohup busybox httpd -f -p 8080 &
+            EOF
+
+  tags {
+    Name = "webserver-1"
   }
 }
 
